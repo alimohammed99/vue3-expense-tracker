@@ -5,8 +5,10 @@
 
   <div class="container">
 
+    <h1 style="margin-bottom:3rem; margin-top: 3rem; text-decoration:underline"><span style="color:blue">Expense</span> <span style="color:red">Tracker</span></h1>
+
     <!-- Balance component -->
-    <TotalBalance />
+    <TotalBalance :total="total" />
 
     <!-- Income Expenses component -->
     <IncomeExpenses />
@@ -33,8 +35,8 @@ import TransactionList from '@/components/TransactionList.vue';
 import AddTransaction from '@/components/AddTransaction.vue';
 
 
-// This is our transaction list. It's now in this 'app.vue', therefore, it'll be global to all the pages.
-import { reactive } from "vue";
+// This is our transaction list. It's now in this 'app.vue', therefore, it'll be global, to all the pages.
+import { reactive, computed } from "vue";
 
 const state = reactive({
   transactions: [
@@ -43,6 +45,13 @@ const state = reactive({
     { id: 3, text: "Tea", amount: -10 },
     { id: 4, text: "Camera", amount: 150 },
   ],
+});
+
+
+const total = computed(() => {
+  return state.transactions.reduce((acc, transaction) => {
+    return acc + transaction.amount;
+  }, 0);
 });
 
 </script>
