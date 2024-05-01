@@ -8,6 +8,8 @@
 <script setup>
 import { defineProps } from 'vue';
 
+
+// Accepting the total as props
 const props = defineProps({
     total: {
         type: Number,
