@@ -14,7 +14,7 @@
         <span>
           {{ transaction.amount > 0 ? "+" : "-" }}${{ Math.abs(transaction.amount) }}
         </span>
-        <button class="delete-btn">X</button>
+        <button @click="deleteTransaction(transaction.id)" class="delete-btn">X</button>
       </li>
     </ul>
   </div>
@@ -41,4 +41,15 @@ const props = defineProps({
     required: true,
   },
 });
+
+// Since I need to emit to the App.vue where everything is taking place
+const emit = defineEmits(['transactionDeleted'])
+
+
+// Remember we have our id (transaction.id) passed with this function
+const deleteTransaction = (id) => {
+  emit('transactionDeleted', id)
+}
+
+
 </script>

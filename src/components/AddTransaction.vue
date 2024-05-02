@@ -12,36 +12,52 @@
         </div>
         <button class="btn">Add transaction</button>
     </form>
-</template>
+</template>  
+
 
 <script setup>
-import { useToast } from 'vue-toastification';
-import { ref } from 'vue';
+import { useToast } from 'vue-toastification'; // Importing the useToast function from vue-toastification
+import { ref } from 'vue'; // Importing the ref function from Vue
 
-const text = ref('');
-const amount = ref('');
+// Variables for managing form inputs using v-model
+const text = ref(''); 
+const amount = ref(''); 
 
-// Get toast interface
+// Accessing the toast functionality from the vue-toastification plugin
 const toast = useToast();
 
+// Define emits to declare custom events
 const emit = defineEmits(['transactionSubmitted']);
 
+// Function to handle form submission
 const onSubmit = () => {
-    if (!text.value || !amount.value) {
-        // Display a toast error message if either field is empty
-        toast.error('Both fields must be filled.');
-        return;
+
+    // Check if either field is empty
+    // I am accessing their value attributes since they are both REFs
+    if (!text.value && !amount.value) { 
+        toast.error('Both fields are required.'); 
+        return; // Exit the function early
+    } else if (!text.value) { 
+        toast.error('Text field is required.');
+        return; // Exit the function early
+    } else if (!amount.value) { 
+        toast.error('Amount field is required.'); 
+        return; // Exit the function early
     }
 
+    // Create an object with the transaction data that's gonna hold our data
     const transactionData = {
-        text: text.value,
-        amount: parseFloat(amount.value),
+        text: text.value, // Assigning the value of the text input to the 'text' property
+        amount: parseFloat(amount.value), // Parsing and assigning the value of the amount input to the 'amount' property
     };
 
+    // Emit the 'transactionSubmitted' event with the transaction data
     emit('transactionSubmitted', transactionData);
+    // I am emitting so I can listen to the event in the App.vue where the data changing occurs
 
-    // Clear form fields
-    text.value = '';
-    amount.value = '';
+    // Clear the form fields after submission
+    text.value = ''; 
+    amount.value = ''; 
+
 };
 </script>
